@@ -11,23 +11,28 @@ class App extends Component {
     super(props)
     this.state = {
       addStatus: false,
-      cardList: [
-        {
-          id: 1,
-          text: "joke text is here",
-          url: "https://swagyeet.com/"
-        },
-        {
-          id: 2,
-          text: "2nd joke text",
-          url: "http://not_secure.net/"
-        }
-      ]
+      cardList: []
     }
   }
 
+  componentDidMount() {
+    this.fetch()
+  }
+
   fetch = () => {
-    
+    const url = 'http://silly-dilf.herokuapp.com/';
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => {
+        this.setState({
+          cardList: response
+        })
+      })
+      .catch(error => console.error('Error:', error))
   }
 
   toggleAdd = () => {
@@ -48,6 +53,17 @@ class App extends Component {
       url: url_text
     }
 
+    const url = 'http://silly-dilf.herokuapp.com/';
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(sendObject),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(resJSON => resJSON)
+      .catch(error => console.error('Error:', error))
+
     console.log(sendObject)
   }
 
@@ -60,14 +76,32 @@ class App extends Component {
       text: joke_text,
       url: url_text
     }
-    console.log(sendObject)
+    const url = 'http://silly-dilf.herokuapp.com/';
+    fetch(url, {
+      method: 'PATCH',
+      body: JSON.stringify(sendObject),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(resJSON => resJSON)
+      .catch(error => console.error('Error:', error))
   }
 
   deleteJoke = (id) => {
     const sendObject = {
       id: id
     }
-    console.log(sendObject)
+    const url = 'http://silly-dilf.herokuapp.com/';
+    fetch(url, {
+      method: 'DELETE',
+      body: JSON.stringify(sendObject),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(resJSON => resJSON)
+      .catch(error => console.error('Error:', error))
   }
 
   render() {
